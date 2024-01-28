@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <style>
+      .topics {
+        display: flex;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>User Form Validation <span id="time"></span></h1>
+      <div>
+        <label for="name">Name: </label>
+        <input type="text" id="name" />
+        <label for="email">Email: </label>
+        <input type="email" id="email" />
+        <label for="age">Age: </label>
+        <input type="number" id="age" />
+        <label for="gender">Gender: </label>
+        <input type="radio" id="male" name="gender" /> Male
+        <input type="radio" id="female" name="gender" /> Female
+        <div>
+          <h2>Interested Topics</h2>
+          <div class="topics">
+            <input type="checkbox" />
+            <p>Sports</p>
+          </div>
+          <div class="topics">
+            <input type="checkbox" />
+            <p>Science</p>
+          </div>
+          <div class="topics">
+            <input type="checkbox" />
+            <p>Programming</p>
+          </div>
+          <div class="topics">
+            <input type="checkbox" />
+            <p>Technology</p>
+          </div>
+          <div class="topics">
+            <input type="checkbox" />
+            <p>Politics</p>
+          </div>
+        </div>
+        <div>
+          <h2>Combo Box</h2>
+          <input type="text" list="department" />
+          <datalist id="department">
+            <option>CSE</option>
+            <option>IT</option>
+            <option>CSBS</option>
+            <option>DS</option>
+          </datalist>
+        </div>
+        <div>
+          <p>Date:</p>
+          <input type="date" />
+        </div>
+        <div>
+          <input type="password" id="password" />
+          <button id="passwordBtn" onclick="changeState()">
+            View Password
+          </button>
+        </div>
+        <button onclick="checkParams()">Submit</button>
+      </div>
+    </div>
+    <script>
+      function changeState() {
+        if (document.getElementById("password").type === "text") {
+          document.getElementById("passwordBtn").innerText = "View Password";
+          document.getElementById("password").type = "password";
+        } else {
+          document.getElementById("passwordBtn").innerText = "Hide Password";
+          document.getElementById("password").type = "text";
+        }
+      }
+
+      function checkNum(str) {
+        for (var i=0; i<str.length; i++) {
+            if (!isNaN(parseInt(str[i]))) {
+                return false;
+            }
+        }
+        return true;
+      }
+
+      function checkParams() {
+        // console.log(document.getElementById("email").value);
+        if (document.getElementById("name").value.length > 2) {
+          console.log("Name OK");
+          if (checkNum(document.getElementById("name").value)) {
+            console.log("Name OK");
+            if (
+              /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+                document.getElementById("email").value
+              )
+            ) {
+              console.log("Email OK");
+              if (parseInt(document.getElementById("age").value) >= 18) {
+                console.log("Age OK");
+              } else {
+                alert("Age less than 18");
+              }
+            } else {
+              alert("Email Error");
+            }
+          } else {
+            alert("Number in Name");
+          }
+        } else {
+          alert("Small Name");
+        }
+      }
+
+        var date = new Date();
+        document.getElementById("time").innerHTML = date;
+    </script>
+  </body>
+</html>

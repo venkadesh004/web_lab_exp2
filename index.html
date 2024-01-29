@@ -16,7 +16,7 @@
       <h1>User Form Validation <span id="time"></span></h1>
       <div>
         <label for="name">Name: </label>
-        <input type="text" id="name" />
+        <input type="text" id="name" min="2" max="10" />
         <label for="email">Email: </label>
         <input type="email" id="email" />
         <label for="age">Age: </label>
@@ -62,7 +62,7 @@
           <input type="date" />
         </div>
         <div>
-          <input type="password" id="password" />
+          <input type="password" id="passwordInput" />
           <button id="passwordBtn" onclick="changeState()">
             View Password
           </button>
@@ -71,55 +71,65 @@
       </div>
     </div>
     <script>
+      var globalPass = "";
+      var current = "";
+      var state = true;
       function changeState() {
-        if (document.getElementById("password").type === "text") {
+        if (state) {
           document.getElementById("passwordBtn").innerText = "View Password";
-          document.getElementById("password").type = "password";
+          current = document.getElementById("passwordInput").value;
+          document.getElementById("passwordInput").value = globalPass;
+          state = false;
         } else {
           document.getElementById("passwordBtn").innerText = "Hide Password";
-          document.getElementById("password").type = "text";
+          document.getElementById("passwordInput").value = current;
+          state = true;
         }
       }
-
+  
       function checkNum(str) {
-        for (var i=0; i<str.length; i++) {
-            if (!isNaN(parseInt(str[i]))) {
-                return false;
-            }
+        for (var i = 0; i < str.length; i++) {
+          if (!isNaN(parseInt(str[i]))) {
+            return false;
+          }
         }
         return true;
       }
-
+  
       function checkParams() {
         // console.log(document.getElementById("email").value);
-        if (document.getElementById("name").value.length > 2) {
+        if (checkNum(document.getElementById("name").value)) {
           console.log("Name OK");
-          if (checkNum(document.getElementById("name").value)) {
-            console.log("Name OK");
-            if (
-              /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
-                document.getElementById("email").value
-              )
-            ) {
-              console.log("Email OK");
-              if (parseInt(document.getElementById("age").value) >= 18) {
-                console.log("Age OK");
-              } else {
-                alert("Age less than 18");
-              }
+          if (
+            /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+              document.getElementById("email").value
+            )
+          ) {
+            console.log("Email OK");
+            if (parseInt(document.getElementById("age").value) >= 18) {
+              console.log("Age OK");
             } else {
-              alert("Email Error");
+              alert("Age less than 18");
             }
           } else {
-            alert("Number in Name");
+            alert("Email Error");
           }
         } else {
-          alert("Small Name");
+          alert("Number in Name");
         }
       }
-
-        var date = new Date();
-        document.getElementById("time").innerHTML = date;
+  
+      var date = new Date();
+      document.getElementById("time").innerHTML = date;
+  
+      const element = document.getElementById("passwordInput");
+      element.addEventListener("input", (event) => {
+        var string = event.target.value;
+        // console.log(string.length);
+        globalPass += string[string.length-1];
+        console.log(globalPass);
+        event.target.value = event.target.value.slice(0, string.length-1)+"#";
+      });
     </script>
   </body>
 </html>
